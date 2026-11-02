@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -8,12 +8,28 @@
     <PublishAot>true</PublishAot>
   </PropertyGroup>
 
+  <PropertyGroup>
+	  <StaticWebAssetsEnabled>false</StaticWebAssetsEnabled>
+	  <EnableConfigurationBindingGenerator>true</EnableConfigurationBindingGenerator>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Serilog" Version="4.4.0" />
     <PackageReference Include="Serilog.Extensions.Hosting" Version="10.0.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="6.1.1" />
     <PackageReference Include="Serilog.Sinks.Debug" Version="3.0.0" />
     <PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
+    <PackageReference Include="Tomlyn.Extensions.Configuration" Version="2.0.1" />
   </ItemGroup>
-  
+	
+  <ItemGroup>
+	<None Update="Shortly*.toml" Condition="'$(Configuration)' == 'Debug'">
+	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	</None>
+	<None Update="Shortly.toml" Condition="'$(Configuration)' == 'Release'">
+	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	</None>
+  </ItemGroup>
+
+
 </Project>
