@@ -1,10 +1,43 @@
-var builder = WebApplication.CreateSlimBuilder(args);
+using Serilog;
 
-var app = builder.Build();
+Log.Logger = new LoggerConfiguration()
+    .WithCommonConfiguration()
+    .WriteTo.Console()
+    .CreateBootstrapLogger();
 
-if (app.Environment.IsDevelopment())
+try
 {
-    
+    var builder = WebApplication.CreateSlimBuilder(args);
+
+    var app = builder.Build();
+
+    if (app.Environment.IsDevelopment())
+    {
+        throw new NotImplementedException("Development environment is not supported.");
+    }
+
+    await app.RunAsync();
+}
+catch (Exception e)
+{
+    Log.Fatal(e, "An unrecoverable error occured during application startup.");
+#if DEBUG
+    throw;
+#endif
+}
+finally
+{
+    await Log.CloseAndFlushAsync();
 }
 
-await app.RunAsync();
+static class CommonExtensions
+{
+    public static LoggerConfiguration WithCommonConfiguration(this LoggerConfiguration config)
+    {
+        return config
+#if DEBUG
+            .WriteTo.Debug()
+#endif
+            .Enrich.FromLogContext();
+    }
+}
