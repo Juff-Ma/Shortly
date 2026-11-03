@@ -15,7 +15,7 @@
 
   <ItemGroup>
     <PackageReference Include="Serilog" Version="4.4.0" />
-    <PackageReference Include="Serilog.Extensions.Hosting" Version="10.0.0" />
+    <PackageReference Include="Serilog.AspNetCore" Version="10.0.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="6.1.1" />
     <PackageReference Include="Serilog.Sinks.Debug" Version="3.0.0" />
     <PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
@@ -23,13 +23,16 @@
   </ItemGroup>
 	
   <ItemGroup>
-	<None Update="Shortly*.toml" Condition="'$(Configuration)' == 'Debug'">
+	<None Update="Resources/Config/Shortly.Development.toml" Condition="'$(Configuration)' == 'Debug'">
+	  <Link>%(Filename)%(Extension)</Link>
 	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	</None>
-	<None Update="Shortly.toml" Condition="'$(Configuration)' == 'Release'">
+	<None Update="Resources/Config/Shortly.toml">
+	  <Link>%(Filename)%(Extension)</Link>
 	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	</None>
+	<EmbeddedResource Include="Resources/Config/Default.Debug.json" Condition="'$(Configuration)' == 'Debug'" Link="Resources\Config\Default.json" />
+	<EmbeddedResource Include="Resources/Config/Default.Release.json" Condition="'$(Configuration)' == 'Release'" Link="Resources\Config\Default.json" />
   </ItemGroup>
-
 
 </Project>

@@ -1,0 +1,4 @@
+AllowedHosts = "*"
+
+[Logging.MinimumLevel]
+Default = "Information"
