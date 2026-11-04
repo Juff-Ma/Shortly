@@ -14,12 +14,26 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="JasperFx" Version="2.99.0" />
     <PackageReference Include="Serilog" Version="4.4.0" />
     <PackageReference Include="Serilog.AspNetCore" Version="10.0.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="6.1.1" />
     <PackageReference Include="Serilog.Sinks.Debug" Version="3.0.0" />
     <PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
     <PackageReference Include="Tomlyn.Extensions.Configuration" Version="2.0.1" />
+    <PackageReference Include="Weasel.Core" Version="9.48.0" />
+    <PackageReference Include="Weasel.MySql" Version="9.48.0" />
+    <PackageReference Include="Weasel.Postgresql" Version="9.48.0" />
+    <PackageReference Include="Weasel.Sqlite" Version="9.48.0" />
+    <PackageReference Include="WolverineFx" Version="6.61.0" />
+    <PackageReference Include="WolverineFx.MySql" Version="6.61.0" />
+    <PackageReference Include="WolverineFx.Postgresql" Version="6.61.0" />
+    <PackageReference Include="WolverineFx.Sqlite" Version="6.61.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(Configuration)' == 'Debug'">
+	<PackageReference Include="JasperFx.RuntimeCompiler" Version="5.0.1" />
+	<PackageReference Include="WolverineFx.RuntimeCompilation" Version="6.61.0" />
   </ItemGroup>
 	
   <ItemGroup>
@@ -31,8 +45,17 @@
 	  <Link>%(Filename)%(Extension)</Link>
 	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	</None>
-	<EmbeddedResource Include="Resources/Config/Default.Debug.json" Condition="'$(Configuration)' == 'Debug'" Link="Resources\Config\Default.json" />
-	<EmbeddedResource Include="Resources/Config/Default.Release.json" Condition="'$(Configuration)' == 'Release'" Link="Resources\Config\Default.json" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Content Remove="Resources/Config/Default.Debug.json" /> 
+	<EmbeddedResource Include="Resources/Config/Default.Debug.json" 
+	                  Condition="'$(Configuration)' == 'Debug'" 
+					  Link="Resources\Config\Default.json" />
+	<Content Remove="Resources/Config/Default.Release.json" /> 
+	<EmbeddedResource Include="Resources/Config/Default.Release.json" 
+	                  Condition="'$(Configuration)' == 'Release'" 
+					  Link="Resources\Config\Default.json" />
   </ItemGroup>
 
 </Project>

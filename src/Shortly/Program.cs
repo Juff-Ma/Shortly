@@ -1,3 +1,5 @@
+using JasperFx;
+using JasperFx.CodeGeneration;
 using Serilog;
 using Serilog.Events;
 using Serilog.Settings.Configuration;
@@ -18,21 +20,39 @@ try
 {
     var builder = WebApplication.CreateSlimBuilder();
 
+    builder.Host.ApplyJasperFxExtensions();
+
     builder.Host
         .AddShortlyConfiguration(args);
 
     builder.Services.AddShortlyLogging(builder.Configuration);
 
+    builder.Services.CritterStackDefaults(opts =>
+    {
+        opts.Production.GeneratedCodeMode = TypeLoadMode.Static;
+
+        opts.Development.GeneratedCodeMode = TypeLoadMode.Dynamic;
+    });
+
+#if DEBUG
+    if (builder.Environment.IsDevelopment())
+    {
+        
+    }
+#endif
+
     var app = builder.Build();
 
     app.UseSerilogRequestLogging();
 
+#if DEBUG
     if (app.Environment.IsDevelopment())
     {
-
+        
     }
+#endif
 
-    await app.RunAsync();
+    await app.RunJasperFxCommands(args);
 }
 catch (Exception e)
 {
