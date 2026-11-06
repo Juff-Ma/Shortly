@@ -1,18 +1,13 @@
-﻿using System.Reflection;
+﻿using Shortly.Setup;
 
 namespace Shortly.Resources;
 
 public static class ResourceLoader
 {
-    private const string AppName = "Shortly";
-
-    public static readonly Assembly ThisAssembly 
-        = typeof(ResourceLoader).Assembly;
-
     public static Stream GetDefaultConfigStream()
     {
-        const string resourceName = $"{AppName}.Resources.Config.Default.json";
-        return ThisAssembly.GetManifestResourceStream(resourceName)
+        const string resourceName = $"{CommonConstants.AppName}.Resources.Config.Default.json";
+        return CommonConstants.MainAssembly.GetManifestResourceStream(resourceName)
             ?? throw new InvalidOperationException($"Resource '{resourceName}' not found.");
     }
 }

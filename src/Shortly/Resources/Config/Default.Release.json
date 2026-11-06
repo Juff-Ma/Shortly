@@ -1,13 +1,11 @@
 {
   "AllowedHosts": "*",
   "Logging": {
-    "MinimumLevel": {
+    "LogLevel": {
       "Default": "Information",
-      "Override": {
-        "Microsoft.AspNetCore": "Warning",
-        "Microsoft.Hosting.Lifetime": "Information",
-        "System": "Warning"
-      }
+      "Microsoft.AspNetCore": "Warning",
+      "Microsoft.Hosting.Lifetime": "Information",
+      "System": "Warning"
     }
   }
 }

@@ -1,2 +1,2 @@
-[Logging.MinimumLevel]
-Default = "Verbose"
+[Logging.LogLevel]
+Default = "Trace"
