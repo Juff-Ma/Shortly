@@ -11,9 +11,14 @@ public static class SetupServicesProvider
     {
         services.CritterStackDefaults(opts =>
         {
-            opts.Production.GeneratedCodeMode = TypeLoadMode.Static;
-
             opts.Development.GeneratedCodeMode = TypeLoadMode.Dynamic;
+            opts.Development.ResourceAutoCreate = AutoCreate.CreateOrUpdate;
+
+            opts.Production.GeneratedCodeMode = TypeLoadMode.Static;
+            opts.Production.ResourceAutoCreate = AutoCreate.None;
+            opts.Production.AssertAllPreGeneratedTypesExist = true;
+
+            opts.ApplicationAssembly = CommonConstants.MainAssembly;
         });
 
         services.AddRoutingCore();

@@ -1,4 +1,3 @@
-using JasperFx;
 using Serilog;
 using Shortly.Setup;
 
@@ -18,18 +17,28 @@ try
     logger.Debug("Creating host");
     HostBuilder builder = new();
 
+    logger.Debug("Applying configuration");
+    logger.Verbose("Applying host configuration");
     builder.ApplyHostConfiguration();
+
+    logger.Verbose("Applying App configuration");
     builder.ApplyShortlyConfiguration();
 
+    logger.Debug("Configuring logging");
     builder.ApplyHostLogging();
 
-    builder.ApplyJasperFxExtensions();
+    logger.Debug("Applying CLI extensions");
+    builder.ApplyShortlyCliExtensions();
 
+    logger.Debug("Configuring required services");
     builder.ConfigureServices(SetupServicesProvider.ConfigureServices);
+
+    logger.Debug("Configuring web host");
     builder.ConfigureSlimWebHost(SetupWebHostProvider.ConfigureWebHost, 
         _ => { });
 
-    await builder.RunJasperFxCommands(args);
+    logger.Information("Starting up application");
+    await builder.BuildAndRunWithCli(args);
 }
 catch (Exception e)
 {
