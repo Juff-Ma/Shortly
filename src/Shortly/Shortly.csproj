@@ -11,6 +11,7 @@
 
   <PropertyGroup>
     <StaticWebAssetsEnabled>false</StaticWebAssetsEnabled>
+	<EnableRequestDelegateGenerator>true</EnableRequestDelegateGenerator>
     <EnableConfigurationBindingGenerator>true</EnableConfigurationBindingGenerator>
     <JsonSerializerIsReflectionEnabledByDefault>false</JsonSerializerIsReflectionEnabledByDefault>
   </PropertyGroup>
