@@ -6,14 +6,50 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <InvariantGlobalization>true</InvariantGlobalization>
     <!--PublishAot>true</PublishAot-->
-	<IsAotCompatible>true</IsAotCompatible>
+    <IsAotCompatible>true</IsAotCompatible>
   </PropertyGroup>
 
   <PropertyGroup>
-	  <StaticWebAssetsEnabled>false</StaticWebAssetsEnabled>
-	  <EnableConfigurationBindingGenerator>true</EnableConfigurationBindingGenerator>
-	  <JsonSerializerIsReflectionEnabledByDefault>false</JsonSerializerIsReflectionEnabledByDefault>
+    <StaticWebAssetsEnabled>false</StaticWebAssetsEnabled>
+    <EnableConfigurationBindingGenerator>true</EnableConfigurationBindingGenerator>
+    <JsonSerializerIsReflectionEnabledByDefault>false</JsonSerializerIsReflectionEnabledByDefault>
   </PropertyGroup>
+
+  <PropertyGroup>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    <DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
+    <ContinuousIntegrationBuild Condition="'$(GITHUB_ACTIONS)' == 'true'">true</ContinuousIntegrationBuild>
+    <RestoreLockedMode Condition="'$(ContinuousIntegrationBuild)' == 'true'">true</RestoreLockedMode>
+    <Deterministic Condition="'$(ContinuousIntegrationBuild)' == 'true'">true</Deterministic>
+
+	<MinVerTagPrefix>v</MinVerTagPrefix>
+	<MinVerMinimumMajorMinor>1.0</MinVerMinimumMajorMinor>
+	<MinVerDefaultPreReleaseIdentifiers>dev.0</MinVerDefaultPreReleaseIdentifiers>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DebugType>none</DebugType>
+  </PropertyGroup>
+
+  <!--Customize MinVer behaviour-->
+  <Target Name="CustomVersioning" AfterTargets="MinVer">
+    <PropertyGroup>
+      <AssemblyVersion>$(MinVerMajor).$(MinVerMinor).0.0</AssemblyVersion>
+
+      <!-- Use the highest possible revision number so debug releases or manual releases are always regarded as higher -->
+      <DefaultRevisionNumber>65535</DefaultRevisionNumber>
+      <FileVersion Condition="'$(Configuration)'=='Debug'">$(MinVerMajor).$(MinVerMinor).$(MinVerPatch).$(DefaultRevisionNumber)</FileVersion>
+
+      <GITHUB_RUN_NUMBER Condition="'$(GITHUB_RUN_NUMBER)' == ''">$(DefaultRevisionNumber)</GITHUB_RUN_NUMBER>
+      <FileVersion Condition="'$(Configuration)'=='Release'">$(MinVerMajor).$(MinVerMinor).$(MinVerPatch).$(GITHUB_RUN_NUMBER)</FileVersion>
+    </PropertyGroup>
+  </Target>
 
   <ItemGroup>
     <PackageReference Include="JasperFx" Version="2.102.0" />
@@ -37,26 +73,33 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)' == 'Debug'">
-	<PackageReference Include="JasperFx.RuntimeCompiler" Version="5.1.0" />
-	<PackageReference Include="WolverineFx.RuntimeCompilation" Version="6.64.2" />
+    <PackageReference Include="JasperFx.RuntimeCompiler" Version="5.1.0" />
+    <PackageReference Include="WolverineFx.RuntimeCompilation" Version="6.64.2" />
   </ItemGroup>
-	
+
   <ItemGroup>
-	<None Update="Resources/Config/Shortly.Development.toml" Condition="'$(Configuration)' == 'Debug'">
-	  <Link>%(Filename)%(Extension)</Link>
-	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	</None>
-	<None Update="Resources/Config/Shortly.toml">
-	  <Link>%(Filename)%(Extension)</Link>
-	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	</None>
+	<PackageReference Include="MinVer" Version="8.0.0">
+	  <PrivateAssets>all</PrivateAssets>
+	  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	</PackageReference>
+  </ItemGroup>
+    
+  <ItemGroup>
+    <None Update="Resources/Config/Shortly.Development.toml" Condition="'$(Configuration)' == 'Debug'">
+      <Link>%(Filename)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources/Config/Shortly.toml">
+      <Link>%(Filename)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   
   <ItemGroup>
     <Content Remove="Resources/Config/Default.Debug.json" /> 
-	<EmbeddedResource Include="Resources/Config/Default.Debug.json" Condition="'$(Configuration)' == 'Debug'" Link="Resources\Config\Default.json" />
-	<Content Remove="Resources/Config/Default.Release.json" /> 
-	<EmbeddedResource Include="Resources/Config/Default.Release.json" Condition="'$(Configuration)' == 'Release'" Link="Resources\Config\Default.json" />
+    <EmbeddedResource Include="Resources/Config/Default.Debug.json" Condition="'$(Configuration)' == 'Debug'" Link="Resources\Config\Default.json" />
+    <Content Remove="Resources/Config/Default.Release.json" /> 
+    <EmbeddedResource Include="Resources/Config/Default.Release.json" Condition="'$(Configuration)' == 'Release'" Link="Resources\Config\Default.json" />
   </ItemGroup>
 
 </Project>
