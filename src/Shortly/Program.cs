@@ -40,6 +40,7 @@ try
     logger.Information("Starting up application");
     await builder.BuildAndRunWithCli(args);
 }
+#pragma warning disable S2139 // This is such a fatal error that we cannot really handle it.
 catch (Exception e)
 {
     logger.Fatal(e, "An unrecoverable error occured during application startup.");
@@ -52,3 +53,4 @@ finally
     logger.Verbose("App has shut down.");
     await Log.CloseAndFlushAsync();
 }
+#pragma warning restore S2139

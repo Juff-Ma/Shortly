@@ -25,19 +25,19 @@
     <PackageReference Include="Serilog.Sinks.Debug" Version="3.0.0" />
     <PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
     <PackageReference Include="Tomlyn.Extensions.Configuration" Version="2.0.1" />
-    <PackageReference Include="Weasel.Core" Version="9.50.0" />
-    <PackageReference Include="Weasel.MySql" Version="9.50.0" />
-    <PackageReference Include="Weasel.Postgresql" Version="9.50.0" />
-    <PackageReference Include="Weasel.Sqlite" Version="9.50.0" />
-    <PackageReference Include="WolverineFx" Version="6.63.0" />
-    <PackageReference Include="WolverineFx.MySql" Version="6.63.0" />
-    <PackageReference Include="WolverineFx.Postgresql" Version="6.63.0" />
-    <PackageReference Include="WolverineFx.Sqlite" Version="6.63.0" />
+    <PackageReference Include="Weasel.Core" Version="9.51.0" />
+    <PackageReference Include="Weasel.MySql" Version="9.51.0" />
+    <PackageReference Include="Weasel.Postgresql" Version="9.51.0" />
+    <PackageReference Include="Weasel.Sqlite" Version="9.51.0" />
+    <PackageReference Include="WolverineFx" Version="6.64.2" />
+    <PackageReference Include="WolverineFx.MySql" Version="6.64.2" />
+    <PackageReference Include="WolverineFx.Postgresql" Version="6.64.2" />
+    <PackageReference Include="WolverineFx.Sqlite" Version="6.64.2" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)' == 'Debug'">
 	<PackageReference Include="JasperFx.RuntimeCompiler" Version="5.1.0" />
-	<PackageReference Include="WolverineFx.RuntimeCompilation" Version="6.63.0" />
+	<PackageReference Include="WolverineFx.RuntimeCompilation" Version="6.64.2" />
   </ItemGroup>
 	
   <ItemGroup>
