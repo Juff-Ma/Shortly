@@ -9,6 +9,10 @@ public static class CommonConstants
     public static readonly Assembly MainAssembly
         = typeof(CommonConstants).Assembly;
 
+    public static readonly string AppVersion
+        = MainAssembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion
+        ?? "Unknown";
+
     public const string ConsoleLogTemplate = "[{Timestamp:HH:mm:ss} {Level:u3}] - {Message:lj}{NewLine}{Exception}";
     public const string FileLogTemplate = "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} {Level}] {SourceContext} : {Message:lj}{NewLine}{Exception}";
 }

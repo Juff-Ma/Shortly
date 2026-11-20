@@ -37,7 +37,7 @@ try
     builder.ConfigureSlimWebHost(SetupWebHostProvider.ConfigureWebHost, 
         _ => { });
 
-    logger.Information("Starting up application");
+    logger.Information("Starting up Shortly application version {0}", CommonConstants.AppVersion);
     await builder.BuildAndRunWithCli(args);
 }
 #pragma warning disable S2139 // This is such a fatal error that we cannot really handle it.
