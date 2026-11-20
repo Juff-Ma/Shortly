@@ -4,12 +4,14 @@ public static class SetupWebHostProvider
 {
     public static void ConfigureWebHost(IWebHostBuilder builder)
     {
-        builder.UseKestrelCore();
+        builder.UseKestrelCore()
+            .ConfigureKestrel((context, options) =>
+            {
+                var kestrelConfig = context.Configuration
+                    .GetSection("Host");
 
-        builder.ConfigureAppConfiguration((context, _) =>
-        {
-            builder.UseConfiguration(context.Configuration);
-        });
+                options.Configure(kestrelConfig);
+            });
 
         builder.Configure(ConfigureHosting);
     }
@@ -25,6 +27,6 @@ public static class SetupWebHostProvider
             app.UseStatusCodePages();
         }
 #endif
-        app.UseEndpoints(SetupEndpointsProvider.ConfigureEndpoints);
+        app.UseShortlyEndpoints(context);
     }
 }
