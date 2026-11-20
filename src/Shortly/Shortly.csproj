@@ -24,8 +24,8 @@
     <Deterministic Condition="'$(ContinuousIntegrationBuild)' == 'true'">true</Deterministic>
 
 	<MinVerTagPrefix>v</MinVerTagPrefix>
-	<MinVerMinimumMajorMinor>1.0</MinVerMinimumMajorMinor>
 	<MinVerDefaultPreReleaseIdentifiers>dev.0</MinVerDefaultPreReleaseIdentifiers>
+	<MinVerAutoIncrement>patch</MinVerAutoIncrement>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
