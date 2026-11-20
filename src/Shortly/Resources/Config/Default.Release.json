@@ -1,5 +1,11 @@
 {
   "AllowedHosts": "*",
+  "Urls": [
+	{
+		"Host": "*",
+		"Path": null
+	}
+  ],
   "Logging": {
     "LogLevel": {
       "Default": "Information",

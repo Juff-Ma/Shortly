@@ -12,6 +12,7 @@
   <PropertyGroup>
 	  <StaticWebAssetsEnabled>false</StaticWebAssetsEnabled>
 	  <EnableConfigurationBindingGenerator>true</EnableConfigurationBindingGenerator>
+	  <JsonSerializerIsReflectionEnabledByDefault>false</JsonSerializerIsReflectionEnabledByDefault>
   </PropertyGroup>
 
   <ItemGroup>

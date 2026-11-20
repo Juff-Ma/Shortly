@@ -1,6 +1,7 @@
-﻿using JasperFx;
+﻿using System.Text.Json;
+using JasperFx;
 using JasperFx.CodeGeneration;
-using Microsoft.Extensions.Options;
+using Shortly.Models;
 using Shortly.Services.Logging;
 
 namespace Shortly.Setup;
@@ -9,6 +10,12 @@ public static class SetupServicesProvider
 {
     public static void ConfigureServices(HostBuilderContext context, IServiceCollection services)
     {
+        services.ConfigureHttpJsonOptions(options =>
+        {
+            options.SerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+            options.SerializerOptions.TypeInfoResolverChain.Insert(0, AppSerializerContext.Default);
+        });
+
         services.CritterStackDefaults(opts =>
         {
             opts.Development.GeneratedCodeMode = TypeLoadMode.Dynamic;
