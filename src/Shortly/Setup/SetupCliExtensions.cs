@@ -15,5 +15,5 @@ public static class SetupCliExtensions
     [UnconditionalSuppressMessage("AOT", "IL3050:RequiresDynamicCode",
         Justification = "Every command input has a source-generated parser, so no List<T> is closed at runtime.")]
     public static Task<int> BuildAndRunWithCli(this IHostBuilder builder, string[] args)
-        => builder.RunJasperFxCommands(args);
+        => builder.RunJasperFxCommands(args, "Shortly.options.txt"); // default CLI opts file
 }

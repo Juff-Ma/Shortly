@@ -6,5 +6,3 @@ public sealed class EndpointSettings
     public string Host { get; set; } = "*";
     public string? Path { get; set; }
 }
-
-
